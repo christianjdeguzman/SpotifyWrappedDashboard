@@ -1,0 +1,45 @@
+# ===== Environment & Credentials =====
+.env
+.env.bak
+.venv/
+venv/
+
+# ===== Python Caches =====
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.python-version
+
+# ===== IDE & Editor Settings =====
+.vscode/
+.idea/
+*.code-workspace
+
+# ===== OS-Specific Files =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Data & Logs =====
+data/
+*.db
+*.sqlite
+*.log
+logs/
+*.csv
+*.json
+
+# ===== Jupyter Notebooks (optional, keep only if needed) =====
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ===== Build & Packaging =====
+build/
+dist/
+*.egg-info/
+*.egg
+*.tar.gz
+
+# ===== Streamlit Cache =====
+.streamlit/
