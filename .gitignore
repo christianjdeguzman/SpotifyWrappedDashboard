@@ -10,6 +10,7 @@ __pycache__/
 *.pyo
 *.pyd
 *.python-version
+.cache*
 
 # ===== IDE & Editor Settings =====
 .vscode/
