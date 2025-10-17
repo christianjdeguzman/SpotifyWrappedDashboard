@@ -44,3 +44,6 @@ dist/
 
 # ===== Streamlit Cache =====
 .streamlit/
+
+# Spotify OAuth token cache
+token_cache/
