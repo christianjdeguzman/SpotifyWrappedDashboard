@@ -10,6 +10,7 @@ __pycache__/
 *.pyo
 *.pyd
 *.python-version
+.cache*
 
 # ===== IDE & Editor Settings =====
 .vscode/
@@ -43,3 +44,6 @@ dist/
 
 # ===== Streamlit Cache =====
 .streamlit/
+
+# Spotify OAuth token cache
+token_cache/
