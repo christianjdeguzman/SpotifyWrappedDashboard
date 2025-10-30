@@ -6,7 +6,7 @@ from spotipy.oauth2 import SpotifyOAuth
 # Load the environment variables from .env
 load_dotenv()
 
-# Grt credentials from environment
+# Get credentials from environment
 client_id = os.getenv("SPOTIFY_CLIENT_ID")
 client_secret = os.getenv("SPOTIFY_CLIENT_SECRET")
 redirect_uri = os.getenv("SPOTIFY_REDIRECT_URI")
