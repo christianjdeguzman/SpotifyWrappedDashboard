@@ -19,7 +19,7 @@ def create_spotify_client():
     
     return sp
 
-# Data Collection Funcitons
+# Data Collection Functions
 def get_top_artists(sp, limit=20, time_range="medium_term"):
     # medium term = 6 months
     results = sp.current_user_top_artists(limit=limit, time_range=time_range)
@@ -59,7 +59,7 @@ def get_top_tracks(sp, limit=20, time_range="medium_term"):
 
 # Save to CSV file
 def save_to_csv(df, filename):
-    # gets the foler where the script lives (src/ root)
+    # gets the folder where the script lives (src/ root)
     # gets a full path to data/ which we will store csv file in
     out_dir = os.path.join(os.path.dirname(__file__), "../data")
     # Ensures code can safely write files there
@@ -77,6 +77,6 @@ if __name__ == "__main__":
     top_tracks_df = get_top_tracks(sp)
     print(top_artists_df.head())
     print(top_tracks_df.head())
-    
+
     save_to_csv(top_artists_df, "top_artists.csv")
     save_to_csv(top_tracks_df, "top_tracks.csv")
