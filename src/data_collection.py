@@ -1,3 +1,4 @@
+import datetime
 import os
 import pandas as pd
 from dotenv import load_dotenv
@@ -46,6 +47,7 @@ def get_top_tracks(sp, limit=20, time_range="medium_term"):
     
     for track in results["items"]:
         track_info = {
+            "track_id" : track["id"],
             "track_name": track["name"],
             "artist": track["artists"][0]["name"],
             "album": track["album"]["name"],
@@ -56,6 +58,64 @@ def get_top_tracks(sp, limit=20, time_range="medium_term"):
         tracks.append(track_info)
     
     return pd.DataFrame(tracks)
+'''
+
+def get_audio_features(sp, tracks_df):
+    """
+    Try to augment tracks_df with Spotify audio features.
+    If the audio_features endpoint returns 403 (forbidden),
+    log the issue and return the original tracks_df un-enriched.
+    """
+    # Extract track IDs
+    track_ids = [
+        tid for tid in tracks_df["track_id"].tolist()
+        if isinstance(tid, str) and len(tid) == 22
+    ]
+
+    if not track_ids:
+        print("No valid track IDs found.")
+        return tracks_df
+
+    try:
+        features = sp.audio_features(track_ids)
+    except spotipy.exceptions.SpotifyException as e:
+        print(f"Spotify API error (audio_features): {e}")
+        print("Fallback: Returning original tracks_df without audio features.")
+        return tracks_df
+
+    # If features returned but maybe all None
+    if not features or all(f is None for f in features):
+        print("audio_features returned no data (all None).")
+        print("Fallback: Returning original tracks_df without audio features.")
+        return tracks_df
+
+    audio_data = []
+    for f in features:
+        if f:
+            audio_data.append({
+                "track_id": f["id"],
+                "danceability": f["danceability"],
+                "energy": f["energy"],
+                "tempo": f["tempo"],
+                "valence": f["valence"],
+                "acousticness": f["acousticness"],
+                "instrumentalness": f["instrumentalness"],
+                "liveness": f["liveness"],
+                "speechiness": f["speechiness"],
+            })
+
+    audio_df = pd.DataFrame(audio_data)
+
+    # Merge enriched features with original tracks by track_id
+    merged_df = pd.merge(
+        tracks_df.reset_index(drop=True),
+        audio_df.reset_index(drop=True),
+        how="left",
+        left_on="track_id",
+        right_on="track_id"
+    )
+    return merged_df
+'''
 
 # Save to CSV file
 def save_to_csv(df, filename):
@@ -75,8 +135,13 @@ if __name__ == "__main__":
     sp = create_spotify_client()
     top_artists_df = get_top_artists(sp)
     top_tracks_df = get_top_tracks(sp)
-    print(top_artists_df.head())
-    print(top_tracks_df.head())
 
-    save_to_csv(top_artists_df, "top_artists.csv")
-    save_to_csv(top_tracks_df, "top_tracks.csv")
+    print(top_tracks_df.head())
+    print(top_artists_df.head())
+    
+    # tracks_with_features = get_audio_features(sp, top_tracks_df)
+    #print(tracks_with_features.head())
+    #save_to_csv(tracks_with_features, f"top_tracks_features_{datetime.date.today()}.csv")
+
+    save_to_csv(top_artists_df, f"top_artists{datetime.date.today()}.csv")
+    save_to_csv(top_tracks_df, f"top_tracks_{datetime.date.today()}.csv")
