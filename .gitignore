@@ -47,3 +47,7 @@ dist/
 
 # Spotify OAuth token cache
 token_cache/
+
+# ===== Plots and Visualizations =====
+/plots/*.png
+
