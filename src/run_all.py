@@ -16,9 +16,12 @@ def run_pipeline_and_plots():
     top_artists_df = get_top_artists(sp)
     top_tracks_df  = get_top_tracks(sp)
 
-    # Prepare directories
-    os.makedirs("data", exist_ok=True)
-    os.makedirs("plots", exist_ok=True)
+    # Prepare directories relative to the repository root (deterministic)
+    repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    data_dir = os.path.join(repo_root, "data")
+    plots_dir = os.path.join(repo_root, "plots")
+    os.makedirs(data_dir, exist_ok=True)
+    os.makedirs(plots_dir, exist_ok=True)
 
     # Snapshot date string
     today_str = date.today().strftime("%Y-%m-%d")
@@ -38,7 +41,7 @@ def run_pipeline_and_plots():
     plt.xlabel("Popularity Score")
     plt.ylabel("Count")
     plt.tight_layout()
-    plt.savefig(os.path.join("plots", f"popularity_distribution_{today_str}.png"))
+    plt.savefig(os.path.join(plots_dir, f"popularity_distribution_{today_str}.png"))
     plt.close()
 
     # 1a. Duration in Minutes
@@ -49,7 +52,7 @@ def run_pipeline_and_plots():
     plt.xlabel("Duration (mins)")
     plt.ylabel("Count")  # optional: because histogram shows counts
     plt.tight_layout()
-    plt.savefig(os.path.join("plots", f"track_duration_distribution_{today_str}.png"))
+    plt.savefig(os.path.join(plots_dir, f"track_duration_distribution_{today_str}.png"))
     plt.close()
 
     # 2. Duration vs Popularity scatter plot
@@ -60,7 +63,7 @@ def run_pipeline_and_plots():
     plt.xlabel("Duration (min)")
     plt.ylabel("Popularity Score")
     plt.tight_layout()
-    plt.savefig(os.path.join("plots", f"duration_vs_popularity_{today_str}.png"))
+    plt.savefig(os.path.join(plots_dir, f"duration_vs_popularity_{today_str}.png"))
     plt.close()
 
     # 3. Genre frequency bar chart
@@ -84,7 +87,7 @@ def run_pipeline_and_plots():
     plt.xlabel("Count")
     plt.ylabel("Genre")
     plt.tight_layout()
-    plt.savefig(os.path.join("plots", f"top_genres_{today_str}.png"))
+    plt.savefig(os.path.join(plots_dir, f"top_genres_{today_str}.png"))
     plt.close()
 
     # 4. Artist track count bar chart
@@ -101,7 +104,7 @@ def run_pipeline_and_plots():
     plt.xlabel("Number of Top Tracks")
     plt.ylabel("Artist")
     plt.tight_layout()
-    plt.savefig(os.path.join("plots", f"top_artists_count_{today_str}.png"))
+    plt.savefig(os.path.join(plots_dir, f"top_artists_count_{today_str}.png"))
     plt.close()
 
     print(f"✅ Pipeline complete. Data saved in `data/{artists_filename}` & `data/{tracks_filename}`;")
