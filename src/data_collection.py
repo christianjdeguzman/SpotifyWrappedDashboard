@@ -143,5 +143,6 @@ if __name__ == "__main__":
     #print(tracks_with_features.head())
     #save_to_csv(tracks_with_features, f"top_tracks_features_{datetime.date.today()}.csv")
 
-    save_to_csv(top_artists_df, f"top_artists{datetime.date.today()}.csv")
+    # Use consistent filename convention with underscore before the date
+    save_to_csv(top_artists_df, f"top_artists_{datetime.date.today()}.csv")
     save_to_csv(top_tracks_df, f"top_tracks_{datetime.date.today()}.csv")
