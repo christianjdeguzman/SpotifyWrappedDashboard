@@ -8,6 +8,8 @@ Key files & flow
 - src/test_spotify_api.py — a lightweight, runnable smoke test that illustrates how OAuth is configured and how to call current_user_top_artists.
 - notebooks/eda_analysis.ipynb — exploratory notebook that reads CSV outputs and performs analysis/plots.
 - data/ — output CSVs (e.g. top_tracks_YYYY-MM-DD.csv, top_artistsYYYY-MM-DD.csv).
+ - src/run_all.py — convenience script that runs data collection + saves dated CSV snapshots and generates EDA plots into `plots/`.
+ - data/ — output CSVs (e.g. top_tracks_YYYY-MM-DD.csv, top_artists_YYYY-MM-DD.csv).
 
 Authentication & runtime conventions
 - Credentials are provided via environment variables loaded by python-dotenv (.env): SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI.
@@ -23,7 +25,10 @@ Quick smoke-test order (Windows cmd.exe):
 1) Install deps: pip install -r requirements.txt
 2) Provide env vars (or create a .env) with the 3 SPOTIFY_* values
 3) Run python src/test_spotify_api.py to confirm OAuth and that your account returns top artists
-4) Run python src/data_collection.py to generate CSV snapshots in data/
+4) Run python src/data_collection.py OR python src/run_all.py to generate CSV snapshots in `data/` and plots in `plots/`
+
+Filename convention
+- CSV snapshots use an underscore before the date: `top_artists_YYYY-MM-DD.csv` and `top_tracks_YYYY-MM-DD.csv`. `src/run_all.py` also creates plot images named like `popularity_distribution_YYYY-MM-DD.png` in `plots/`.
 
 Testing & CI notes
 - There's no automated test suite; src/test_spotify_api.py is a manual smoke test. When adding tests, follow the existing pattern: small scripts that exercise OAuth flows and CSV outputs.
