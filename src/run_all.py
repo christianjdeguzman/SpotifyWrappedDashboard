@@ -29,8 +29,9 @@ def run_pipeline_and_plots():
     # Save CSVs with date
     artists_filename = f"top_artists_{today_str}.csv"
     tracks_filename  = f"top_tracks_{today_str}.csv"
-    save_to_csv(top_artists_df, artists_filename)
-    save_to_csv(top_tracks_df,  tracks_filename)
+    # Explicitly pass the deterministic data_dir to save_to_csv
+    save_to_csv(top_artists_df, artists_filename, out_dir=data_dir)
+    save_to_csv(top_tracks_df,  tracks_filename, out_dir=data_dir)
 
     # ---- EDA & plots ----
 
