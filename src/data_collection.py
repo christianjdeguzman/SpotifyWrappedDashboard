@@ -118,10 +118,11 @@ def get_audio_features(sp, tracks_df):
 '''
 
 # Save to CSV file
-def save_to_csv(df, filename):
-    # gets the folder where the script lives (src/ root)
-    # gets a full path to data/ which we will store csv file in
-    out_dir = os.path.join(os.path.dirname(__file__), "../data")
+def save_to_csv(df, filename, out_dir=None):
+    # Allow callers to explicitly provide an output directory. If none provided,
+    # default to the repository-level `data/` (keeps previous behavior).
+    if out_dir is None:
+        out_dir = os.path.join(os.path.dirname(__file__), "../data")
     # Ensures code can safely write files there
     os.makedirs(out_dir, exist_ok=True)
     # Builds the full file path and writes DF to CSV file
@@ -143,5 +144,6 @@ if __name__ == "__main__":
     #print(tracks_with_features.head())
     #save_to_csv(tracks_with_features, f"top_tracks_features_{datetime.date.today()}.csv")
 
-    save_to_csv(top_artists_df, f"top_artists{datetime.date.today()}.csv")
+    # Use consistent filename convention with underscore before the date
+    save_to_csv(top_artists_df, f"top_artists_{datetime.date.today()}.csv")
     save_to_csv(top_tracks_df, f"top_tracks_{datetime.date.today()}.csv")
